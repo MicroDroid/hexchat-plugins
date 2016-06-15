@@ -38,7 +38,7 @@ def rainbow(key, data, userdata):
         colour = ""
         for word in hexchat.get_info("inputbox").strip(" ").split(" "):
             colour = generate_colour(colour)
-            output = output + generate_colour() + " " + word + " "
+            output = output + colour + " " + word + " "
         hexchat.command("say " + output)
         hexchat.command("settext  ")
         return hexchat.EAT_ALL
