@@ -16,6 +16,17 @@ def toggle(words, word_eols, userdata):
     else:
         hexchat.prnt("Rainbow text is now disabled")
 
+def generate_colour(last_colour):
+    colour_code = ""
+    
+    while True:
+        colour_code = "\00300," + str(random.randint(1, 12))
+        
+        if not colour_code == last_colour:
+            break
+        
+    return colour_code
+
 def rainbow(key, data, userdata):
     global enabled
     if not enabled:
@@ -24,8 +35,10 @@ def rainbow(key, data, userdata):
         if (hexchat.get_info("inputbox").startswith("/")):
             return hexchat.EAT_NONE
         output = "\002"
+        colour = ""
         for word in hexchat.get_info("inputbox").strip(" ").split(" "):
-            output = output + "\00300," + str(random.randint(1, 12)) + " " + word + " "
+            colour = generate_colour(colour)
+            output = output + generate_colour() + " " + word + " "
         hexchat.command("say " + output)
         hexchat.command("settext  ")
         return hexchat.EAT_ALL
