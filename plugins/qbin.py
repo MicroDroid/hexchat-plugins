@@ -13,7 +13,7 @@ def paste(key, data, userdata):
 		if hexchat.get_info("inputbox").startswith(command):
 			try:
 				req = requests.post("https://qbin.io/", {"Q": hexchat.get_info("inputbox")[len(command)+1:]})
-				hexchat.command("say " + req.text)
+				hexchat.command("say " + req.text.strip())
 				hexchat.command("settext  ")
 			except:
 				hexchat.command("settext  ")
