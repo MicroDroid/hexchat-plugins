@@ -1,11 +1,11 @@
-  import hexchat
+import hexchat
 import requests
 import json
 import re
 
 __module_name__ = 'Markdown'
 __module_author__ = 'OverCoder'
-__module_version__ = '0.2'
+__module_version__ = '0.3'
 __module_description__ = 'Parses incoming and outgoing markdown to IRC attributes'
 command = 'markdown'
 command_help = """
@@ -87,16 +87,17 @@ def onChannelMessage(params, data, userdata):
     emitting = False
     return hexchat.EAT_ALL
 
-def onYourMessage(params, data, userdata):
+def onSendingMessage(words, words_eol, userdata):
     global emitting
     if emitting:
         return hexchat.EAT_NONE
     emitting = True
-    params[1] = parse(params[1])
-    hexchat.emit_print('Your Message', params[0], params[1], params[2])
+    result = parse(words_eol[0])
+    hexchat.command('say ' + result)
     emitting = False
     return hexchat.EAT_ALL
 
+
 hexchat.hook_command(command, onCommand, help=command_help)
+hexchat.hook_command('', onSendingMessage)
 hexchat.hook_print('Channel Message', onChannelMessage)
-hexchat.hook_print('Your Message', onYourMessage)
