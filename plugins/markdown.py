@@ -5,7 +5,7 @@ import re
 
 __module_name__ = 'Markdown'
 __module_author__ = 'OverCoder'
-__module_version__ = '0.4'
+__module_version__ = '0.4.1'
 __module_description__ = 'Parses incoming and outgoing markdown to IRC attributes'
 command = 'markdown'
 command_help = """
@@ -57,11 +57,11 @@ def onCommand(words, words_eol, userdata):
                     result = '\n'.join(['   ' + key + '  =>  ' + value for key, value in available_config.items()])
                     print('Available configuration:\n\n' + result)
                 elif words[2] == 'set':
-                    if (len(words) < 4):
+                    if (len(words) < 5):
                         print(command_help)
                     else:
-                        hexchat.set_pluginpref(config_prefix + words[2], words_eol[3])
-                        print(words[2] + ':' + words_eol[3])
+                        hexchat.set_pluginpref(config_prefix + words[3], words_eol[4])
+                        print(words[3] + ':' + words_eol[4])
                 else:
                     print(command_help)
             else:
