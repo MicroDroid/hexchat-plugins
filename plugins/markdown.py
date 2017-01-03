@@ -5,7 +5,7 @@ import re
 
 __module_name__ = 'Markdown'
 __module_author__ = 'OverCoder'
-__module_version__ = '0.4.1'
+__module_version__ = '0.4.2'
 __module_description__ = 'Parses incoming and outgoing markdown to IRC attributes'
 command = 'markdown'
 command_help = """
@@ -19,6 +19,8 @@ List of actions:
         Prints available configurations
     /markdown config set <key> <value>
         Sets configuration parameter
+    /markdown config unset <key>
+        Deletes a configuration parameter
 """
 config_prefix = 'markdown_'
 available_config = {
@@ -62,6 +64,12 @@ def onCommand(words, words_eol, userdata):
                     else:
                         hexchat.set_pluginpref(config_prefix + words[3], words_eol[4])
                         print(words[3] + ':' + words_eol[4])
+                elif words[2] == 'unset':
+                    if (len(words) < 4):
+                        print(command_help)
+                    else:
+                        hexchat.del_pluginpref(config_prefix + words[3])
+                        print(words[3] + ' has been unset')
                 else:
                     print(command_help)
             else:
