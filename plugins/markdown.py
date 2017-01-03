@@ -5,7 +5,7 @@ import re
 
 __module_name__ = 'Markdown'
 __module_author__ = 'OverCoder'
-__module_version__ = '0.4.2'
+__module_version__ = '0.4.3'
 __module_description__ = 'Parses incoming and outgoing markdown to IRC attributes'
 command = 'markdown'
 command_help = """
@@ -24,9 +24,11 @@ List of actions:
 """
 config_prefix = 'markdown_'
 available_config = {
-    'parse_incoming': 'Parse incoming messages (Boolean)',
-    'parse_outgoing': 'Parse outgoing messages (Boolean)'
+    'parse_incoming': 'Parse incoming messages [true]',
+    'parse_outgoing': 'Parse outgoing messages [true]'
 }
+
+positive_input = ['yes', 'yas', 'yeah', 'true', '1', 'on', 'y']
 
 emitting = False
 
@@ -86,7 +88,7 @@ def onCommand(words, words_eol, userdata):
 
 def onChannelMessage(params, data, userdata):
     global emitting
-    if emitting or not hexchat.get_pluginpref('parse_outgoing'):
+    if emitting or not hexchat.get_pluginpref('parse_outgoing') in positive_input:
         return hexchat.EAT_NONE
     emitting = True
     params[1] = parse(params[1])
@@ -96,7 +98,7 @@ def onChannelMessage(params, data, userdata):
 
 def onSendingMessage(words, words_eol, userdata):
     global emitting
-    if emitting or not hexchat.get_pluginpref('parse_incoming'):
+    if emitting or not hexchat.get_pluginpref('parse_incoming') in positive_input:
         return hexchat.EAT_NONE
     emitting = True
     result = parse(words_eol[0])
