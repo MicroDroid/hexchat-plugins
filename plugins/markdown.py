@@ -1,6 +1,4 @@
 import hexchat
-import requests
-import json
 import re
 
 __module_name__ = 'Markdown'
