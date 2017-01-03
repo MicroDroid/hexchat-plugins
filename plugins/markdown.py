@@ -86,7 +86,7 @@ def onCommand(words, words_eol, userdata):
 
 def onChannelMessage(params, data, userdata):
     global emitting
-    if emitting or not hexchat.get_pluginpref('parse_outgoing') in positive_input:
+    if emitting or not hexchat.get_pluginpref(config_prefix + 'parse_incoming') in positive_input:
         return hexchat.EAT_NONE
     emitting = True
     params[1] = parse(params[1])
@@ -96,7 +96,7 @@ def onChannelMessage(params, data, userdata):
 
 def onSendingMessage(words, words_eol, userdata):
     global emitting
-    if emitting or not hexchat.get_pluginpref('parse_incoming') in positive_input:
+    if emitting or not hexchat.get_pluginpref(config_prefix + 'parse_outgoing') in positive_input:
         return hexchat.EAT_NONE
     emitting = True
     result = parse(words_eol[0])
