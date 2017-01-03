@@ -3,7 +3,7 @@ import re
 
 __module_name__ = 'Markdown'
 __module_author__ = 'OverCoder'
-__module_version__ = '0.4.5'
+__module_version__ = '0.4.6'
 __module_description__ = 'Parses incoming and outgoing markdown to IRC attributes'
 command = 'markdown'
 command_help = """
@@ -56,20 +56,20 @@ def onCommand(words, words_eol, userdata):
         if words[1] == 'config':
             if len(words) > 2:
                 if words[2] == 'help':
-                    result = '\n'.join(['   ' + key + '  =>  ' + value for key, value in available_config.items()])
+                    result = '\n'.join(['   \002' + key + '\002  =>  ' + value for key, value in available_config.items()])
                     print('Available configuration:\n\n' + result)
                 elif words[2] == 'set':
                     if (len(words) < 5):
                         print(command_help)
                     else:
                         hexchat.set_pluginpref(config_prefix + words[3], words_eol[4])
-                        print(words[3] + ':' + words_eol[4])
+                        print('\002' + words[3] + '\002 has been set to \002' + words_eol[4] + '\002')
                 elif words[2] == 'unset':
                     if (len(words) < 4):
                         print(command_help)
                     else:
                         hexchat.del_pluginpref(config_prefix + words[3])
-                        print(words[3] + ' has been unset')
+                        print('\002' + words[3] + '\002 has been unset')
                 else:
                     print(command_help)
             else:
@@ -77,7 +77,7 @@ def onCommand(words, words_eol, userdata):
                 result = '{\n'
                 for pref in prefs_list:
                     if pref[:9] == config_prefix:
-                        result = result + '    ' + pref[len(config_prefix):] + ':' + hexchat.get_pluginpref(pref) + '\n'
+                        result = result + '    \002' + pref[len(config_prefix):] + '\002\00314 : \003\002' + hexchat.get_pluginpref(pref) + '\002\n'
                 result = result + '}'
                 print(result)
         else:
