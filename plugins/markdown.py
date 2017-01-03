@@ -3,7 +3,7 @@ import re
 
 __module_name__ = 'Markdown'
 __module_author__ = 'OverCoder'
-__module_version__ = '0.4.4'
+__module_version__ = '0.4.5'
 __module_description__ = 'Parses incoming and outgoing markdown to IRC attributes'
 command = 'markdown'
 command_help = """
@@ -86,7 +86,9 @@ def onCommand(words, words_eol, userdata):
 
 def onChannelMessage(params, data, userdata):
     global emitting
-    if emitting or not hexchat.get_pluginpref(config_prefix + 'parse_incoming') in positive_input:
+    parse_incoming = hexchat.get_pluginpref(config_prefix + 'parse_incoming')
+    parse_incoming = True if parse_incoming == None else parse_incoming in positive_input
+    if emitting or not parse_incoming:
         return hexchat.EAT_NONE
     emitting = True
     params[1] = parse(params[1])
@@ -96,7 +98,9 @@ def onChannelMessage(params, data, userdata):
 
 def onSendingMessage(words, words_eol, userdata):
     global emitting
-    if emitting or not hexchat.get_pluginpref(config_prefix + 'parse_outgoing') in positive_input:
+    parse_outgoing = hexchat.get_pluginpref(config_prefix + 'parse_outgoing')
+    parse_outgoing = True if parse_outgoing == None else parse_outgoing in positive_input
+    if emitting or not parse_outgoing:
         return hexchat.EAT_NONE
     emitting = True
     result = parse(words_eol[0])
